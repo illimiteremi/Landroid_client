@@ -18,7 +18,8 @@ public class Constants {
         BRUSH_STOP           ( 9, "BRUSH STOP"),
         START_ALONE_MODE     ( 10, "MODE ALONE START"),
         STOP_ALONE_MODE      ( 11, "MODE ALONE STOP"),
-        TEST_LANDROID        ( 12, "TEST LANDROID SERVER");
+        TEST_LANDROID        ( 12, "TEST LANDROID SERVER"),
+        HALT_SYSTEM          ( 13, "HALT LANDROID SERVER");
 
         private byte    code;
         private String  message;
