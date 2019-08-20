@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sendCommande(Constants.COMMANDE.STOP_ALL.getCode(), INITIAL_SPEED);
                 disableAloneMode();
-                sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
+                sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), INITIAL_SPEED);
             }
         });
 
