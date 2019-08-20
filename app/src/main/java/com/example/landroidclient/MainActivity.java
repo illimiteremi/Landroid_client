@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         bTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Disable alone mode
+                disableAloneMode();
                 sendCommande(Constants.COMMANDE.TEST_LANDROID.getCode(), INITIAL_SPEED);
                 message.setText(Constants.COMMANDE.TEST_LANDROID.getMessage());
             }
@@ -184,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
         bHalt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Disable alone mode
+                disableAloneMode();
                 sendCommande(Constants.COMMANDE.HALT_SYSTEM.getCode(), INITIAL_SPEED);
                 message.setText(Constants.COMMANDE.HALT_SYSTEM.getMessage());
             }
@@ -216,11 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onMove: " + Constants.COMMANDE.getValue(landroidDirection) + " - " + landroidSpeed);
 
                 // Disable alone mode
-                if (DataStore.getBoolean(context, ALONE_MODE, false)) {
-                    sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), (byte)0);
-                    modeAuto.setTextColor(Color.BLACK);
-                    DataStore.putBoolean(context, ALONE_MODE, false);
-                }
+                disableAloneMode();
             }
 
             @Override
@@ -251,6 +251,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
             modeAuto.setTextColor(Color.GREEN);
+        }
+    }
+
+    private void disableAloneMode() {
+        // Disable alone mode
+        if (DataStore.getBoolean(context, ALONE_MODE, false)) {
+            sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), (byte)0);
+            modeAuto.setTextColor(Color.BLACK);
+            DataStore.putBoolean(context, ALONE_MODE, false);
         }
     }
 }
