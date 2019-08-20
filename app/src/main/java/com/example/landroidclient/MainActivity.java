@@ -1,5 +1,6 @@
 package com.example.landroidclient;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,11 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "[LANDROID][CLIENT]";
 
+    private Context context;
+
     private static final byte INITIAL_SPEED = 0;
     private static final byte MAX_SPEED = 100;
 
-    private static final String HOST_KEY  = "HOST";
-    private static final String PORT_KEY  = "KEY";
+    private static final String HOST_KEY   = "HOST";
+    private static final String PORT_KEY   = "KEY";
+    private static final String ALONE_MODE = "ALONE_MODE";
 
     private Button bStart, bStop, bTest, bHalt;
     private ImageButton bAloneMode;
@@ -41,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Socket      connexion = null;
     private Boolean     stayPut   = false;
-    private Boolean     aloneMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = getApplicationContext();
+
         setContentView(R.layout.activity_main);
 
         joyStick   = findViewById(R.id.joyStick);
@@ -62,10 +68,18 @@ public class MainActivity extends AppCompatActivity {
         port.setText(DataStore.getString(getApplicationContext(), PORT_KEY, "8080"));
         host.setText(DataStore.getString(getApplicationContext(), HOST_KEY, "192.168.x.x"));
 
+        DataStore.realRxPermisssion(context).subscribe();
         createListener();
-        DataStore.realRxPermisssion(getApplicationContext());
-   }
 
+        // check Alone Mode
+        if (!DataStore.getBoolean(context, ALONE_MODE, false)) {
+            message.setText(Constants.COMMANDE.STOP_ALONE_MODE.getMessage());
+            modeAuto.setTextColor(Color.BLACK);
+        } else {
+            message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
+            modeAuto.setTextColor(Color.GREEN);
+        }
+   }
 
     private void sendCommande(final byte direction, final byte speed) {
        Log.d(TAG, "sendCommande: " + direction + " - " + speed);
@@ -129,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                DataStore.putString(getApplicationContext(), HOST_KEY, s.toString());
+                DataStore.putString(context, HOST_KEY, s.toString());
 
             }
         });
@@ -147,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                DataStore.putString(getApplicationContext(), PORT_KEY, s.toString());
+                DataStore.putString(context, PORT_KEY, s.toString());
             }
         });
 
@@ -186,16 +200,16 @@ public class MainActivity extends AppCompatActivity {
         bAloneMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (aloneMode) {
+                if (DataStore.getBoolean(context, ALONE_MODE, false)) {
                     message.setText(Constants.COMMANDE.STOP_ALONE_MODE.getMessage());
                     modeAuto.setTextColor(Color.BLACK);
                     sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), INITIAL_SPEED);
-                    aloneMode  = false;
+                    DataStore.putBoolean(context, ALONE_MODE, false);
                 } else {
                     message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
                     modeAuto.setTextColor(Color.GREEN);
                     sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
-                    aloneMode  = true;
+                    DataStore.putBoolean(context, ALONE_MODE, true);
                 }
             }
         });
@@ -210,9 +224,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onMove: " + Constants.COMMANDE.getValue(landroidDirection) + " - " + landroidSpeed);
 
                 // Disable alone mode
-                if (aloneMode) {
+                if (DataStore.getBoolean(context, ALONE_MODE, false)) {
                     sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), (byte)0);
-                    aloneMode  = false;
+                    DataStore.putBoolean(context, ALONE_MODE, false);
                 }
             }
 

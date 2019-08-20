@@ -66,8 +66,8 @@ public class DataStore {
         getEditor(context).putString(key, value).commit();
     }
 
-    public static void realRxPermisssion(Context context) {
-        RealRxPermission.getInstance(context)
+    public static Single<Boolean> realRxPermisssion(Context context) {
+        return RealRxPermission.getInstance(context)
                 .requestEach(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .all(new Predicate<Permission>() {
                     @Override
