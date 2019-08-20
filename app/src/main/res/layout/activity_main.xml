@@ -69,10 +69,11 @@
         app:percentage="25" />
 
     <ImageButton
-        android:id="@+id/autoMode"
+        style="@android:style/Widget.Button"
+        android:id="@+id/buttonAutoMode"
         android:layout_width="98dp"
         android:layout_height="97dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -85,9 +86,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MODE AUTOMATIQUE"
-        app:layout_constraintEnd_toEndOf="@+id/autoMode"
-        app:layout_constraintStart_toStartOf="@+id/autoMode"
-        app:layout_constraintTop_toBottomOf="@+id/autoMode" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonAutoMode"
+        app:layout_constraintStart_toStartOf="@+id/buttonAutoMode"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAutoMode" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -102,9 +103,10 @@
 
         <Button
             android:id="@+id/buttonTest"
+            style="@android:style/Widget.Button"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="8dp"
             android:text="TEST SYSTEM"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/buttonConnect"
@@ -115,10 +117,11 @@
 
         <Button
             android:id="@+id/buttonClose"
+            style="@android:style/Widget.Button"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="60dp"
             android:text="STOP BRUSH"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,24 +130,42 @@
 
         <Button
             android:id="@+id/buttonConnect"
+            style="@android:style/Widget.Button"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:text="START BRUSH"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonHalt"
+            style="@android:style/Widget.Button"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/holo_red_light"
             android:text="HALT SYSTEM"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/buttonClose"
             app:layout_constraintStart_toStartOf="@+id/buttonClose" />
     </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonStopAll"
+        style="@android:style/Widget.Button"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="#F44336"
+        android:text="STOP ALL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textModeAuto" />
 
 
 </android.support.constraint.ConstraintLayout>

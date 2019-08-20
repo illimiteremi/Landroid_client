@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PORT_KEY   = "KEY";
     private static final String ALONE_MODE = "ALONE_MODE";
 
-    private Button bStart, bStop, bTest, bHalt;
+    private Button bStart, bStop, bTest, bHalt, bStopAll;
     private ImageButton bAloneMode;
 
     private TextView message;
@@ -61,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
         bStart     = findViewById(R.id.buttonConnect);
         bStop      = findViewById(R.id.buttonClose);
         bTest      = findViewById(R.id.buttonTest);
-        bAloneMode = findViewById(R.id.autoMode);
+        bAloneMode = findViewById(R.id.buttonAutoMode);
         bHalt      = findViewById(R.id.buttonHalt);
-        modeAuto = findViewById(R.id.textModeAuto);
+        modeAuto   = findViewById(R.id.textModeAuto);
+        bStopAll   = findViewById(R.id.buttonStopAll);
 
         port.setText(DataStore.getString(getApplicationContext(), PORT_KEY, "8080"));
         host.setText(DataStore.getString(getApplicationContext(), HOST_KEY, "192.168.x.x"));
@@ -207,6 +208,15 @@ public class MainActivity extends AppCompatActivity {
                     sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
                     DataStore.putBoolean(context, ALONE_MODE, true);
                 }
+            }
+        });
+
+        bStopAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCommande(Constants.COMMANDE.STOP_ALL.getCode(), INITIAL_SPEED);
+                disableAloneMode();
+                sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
             }
         });
 
