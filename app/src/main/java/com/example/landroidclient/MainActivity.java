@@ -70,15 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         DataStore.realRxPermisssion(context).subscribe();
         createListener();
-
-        // check Alone Mode
-        if (!DataStore.getBoolean(context, ALONE_MODE, false)) {
-            message.setText(Constants.COMMANDE.STOP_ALONE_MODE.getMessage());
-            modeAuto.setTextColor(Color.BLACK);
-        } else {
-            message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
-            modeAuto.setTextColor(Color.GREEN);
-        }
+        checkAloneMode();
    }
 
     private void sendCommande(final byte direction, final byte speed) {
@@ -226,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 // Disable alone mode
                 if (DataStore.getBoolean(context, ALONE_MODE, false)) {
                     sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), (byte)0);
+                    modeAuto.setTextColor(Color.BLACK);
                     DataStore.putBoolean(context, ALONE_MODE, false);
                 }
             }
@@ -248,5 +241,16 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         joyStick.setListener(joyStickListener);
+    }
+
+    private void checkAloneMode() {
+        // check Alone Mode
+        if (!DataStore.getBoolean(context, ALONE_MODE, false)) {
+            message.setText(Constants.COMMANDE.STOP_ALONE_MODE.getMessage());
+            modeAuto.setTextColor(Color.BLACK);
+        } else {
+            message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
+            modeAuto.setTextColor(Color.GREEN);
+        }
     }
 }
