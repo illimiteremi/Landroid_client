@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private JoyStick joyStick;
 
     private EditText host, port;
+    private TextView modeAuto;
     private String hostName;
     private Integer portValue;
 
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         bTest      = findViewById(R.id.buttonTest);
         bAloneMode = findViewById(R.id.autoMode);
         bHalt      = findViewById(R.id.buttonHalt);
+        modeAuto = findViewById(R.id.textModeAuto);
 
         port.setText(DataStore.getString(getApplicationContext(), PORT_KEY, "8080"));
         host.setText(DataStore.getString(getApplicationContext(), HOST_KEY, "192.168.x.x"));
@@ -185,12 +187,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (aloneMode) {
-                    sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), INITIAL_SPEED);
                     message.setText(Constants.COMMANDE.STOP_ALONE_MODE.getMessage());
+                    modeAuto.setTextColor(Color.BLACK);
+                    sendCommande(Constants.COMMANDE.STOP_ALONE_MODE.getCode(), INITIAL_SPEED);
                     aloneMode  = false;
                 } else {
-                    sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
                     message.setText(Constants.COMMANDE.START_ALONE_MODE.getMessage());
+                    modeAuto.setTextColor(Color.GREEN);
+                    sendCommande(Constants.COMMANDE.START_ALONE_MODE.getCode(), INITIAL_SPEED);
                     aloneMode  = true;
                 }
             }
